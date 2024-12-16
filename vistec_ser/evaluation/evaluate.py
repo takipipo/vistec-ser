@@ -23,7 +23,7 @@ def evaluate_slice_model(
         y_pred.append(prediction)
     y_true = torch.stack(y_true).squeeze(-1)
     y_pred = torch.stack(y_pred).squeeze(-1)
-    wa = FM.accuracy(y_pred, y_true)
-    cm = FM.confusion_matrix(y_pred, y_true, normalize='true', num_classes=n_classes)
+    wa = FM.accuracy(y_pred, y_true, task="multiclass", num_classes=n_classes)
+    cm = FM.confusion_matrix(y_pred, y_true, normalize='true', num_classes=n_classes, task="multiclass")
     ua = torch.diag(cm).mean()
     return wa, ua, cm

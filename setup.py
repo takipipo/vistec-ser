@@ -15,7 +15,8 @@ requirements = [
     "fastapi>=0.63.0",
     "aiofiles>=0.6.0",
     "python-multipart>=0.0.5",
-    "uvicorn>=0.13.4"
+    "uvicorn>=0.13.4",
+    "torchmetrics==1.6.0",
 ]
 
 setuptools.setup(
@@ -37,5 +38,5 @@ setuptools.setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Programming Language :: Python :: 3.6',
     ],
-    python_requires='>=3.6'
+    python_requires=">=3.6",
 )

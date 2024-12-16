@@ -10,6 +10,7 @@ class BaseModel(pl.LightningModule):
         super().__init__(**kwargs)
         self.hyperparams = hparams
         self.learning_rate = self.hyperparams.get("learning_rate", 1e-4)
+        self.num_classes = self.hyperparams.get("n_classes", 4)
 
     def forward(self, *args, **kwargs):
         raise NotImplementedError()
@@ -19,7 +20,7 @@ class BaseModel(pl.LightningModule):
         y_hat = self(x)
         loss = F.cross_entropy(y_hat, y)
         preds = torch.argmax(y_hat, dim=-1)
-        acc = FM.accuracy(preds, y)
+        acc = FM.accuracy(preds, y, task="multiclass", num_classes=self.num_classes)
         metrics = {"train_loss": loss, "train_acc": acc}
         self.log_dict(metrics, prog_bar=True, logger=True)
         return loss
@@ -29,14 +30,14 @@ class BaseModel(pl.LightningModule):
         y_hat = self(x)
         loss = F.cross_entropy(y_hat, y)
         preds = torch.argmax(y_hat, dim=-1)
-        acc = FM.accuracy(preds, y)
+        acc = FM.accuracy(preds, y, task="multiclass", num_classes=self.num_classes)
         metrics = {"val_acc": acc, "val_loss": loss}
         self.log_dict(metrics, prog_bar=True, logger=True)
         return metrics
 
     def test_step(self, batch, batch_idx):
         metrics = self.validation_step(batch, batch_idx)
-        metrics = {'test_acc': metrics['val_acc'], 'test_loss': metrics['val_loss']}
+        metrics = {"test_acc": metrics["val_acc"], "test_loss": metrics["val_loss"]}
         self.log_dict(metrics, prog_bar=True, logger=True)
 
     def configure_optimizers(self):
@@ -56,7 +57,7 @@ class BaseSliceModel(BaseModel):
         emotion = batch[0]["emotion"]
         final_logits = torch.stack([self(chunk["feature"])[0] for chunk in batch]).mean(dim=0, keepdim=True)
         loss = F.cross_entropy(final_logits, emotion)
-        acc = FM.accuracy(final_logits.argmax(dim=-1), emotion)
+        acc = FM.accuracy(final_logits.argmax(dim=-1), emotion, task="multiclass", num_classes=self.num_classes)
         metrics = {"val_acc": acc, "val_loss": loss}
         self.log_dict(metrics)
         return metrics

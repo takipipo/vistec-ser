@@ -8,7 +8,7 @@ requirements = [
     "torchaudio>=0.7.2",
     "pytorch-lightning>=1.2.0",
     "pandas>=1.1.5",
-    "numpy>=1.19.2,<1.20.0",
+    "numpy>=1.26.4",
     "soundfile>=0.10.3",
     "PyYAML!=5.4.*,>=5.1",
     "wget>=3.2",

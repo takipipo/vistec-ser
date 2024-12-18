@@ -1,6 +1,6 @@
 emodb:
-  download_dir: "/Users/chompk/WORK/AIResearch/VISTEC-dataset"
-  experiment_dir: "/Users/chompk/WORK/AIResearch/VISTEC-dataset/exp_emodb"
+  download_dir: "WORK/AIResearch/VISTEC-dataset"
+  experiment_dir: "WORK/AIResearch/VISTEC-dataset/exp_emodb"
 
 feature:
   sampling_rate: 16000

@@ -47,6 +47,7 @@ python examples/train_fold_aisser.py --config-path <path-to-config> --n-iter <nu
 We also implement a FastAPI backend server as an example of deploying a SER model. To run the server, run
 ```shell
 cd examples
+export DYLD_LIBRARY_PATH="/opt/homebrew/lib:$DYLD_LIBRARY_PATH"
 uvicorn server:app --reload
 ```
 You can customize the server by modifying `example/thaiser.yaml` in `inference` field.
